@@ -27,7 +27,9 @@ if (rawConn.StartsWith("postgres://") || rawConn.StartsWith("postgresql://"))
     var userInfo = uri.UserInfo.Split(':', 2);
     rawConn = $"Host={uri.Host};Port={(uri.Port > 0 ? uri.Port : 5432)};Database={uri.AbsolutePath.TrimStart('/')};Username={userInfo[0]};Password={Uri.UnescapeDataString(userInfo[1])}";
 }
-builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(rawConn));
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(rawConn)
+           .ConfigureWarnings(w => w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning)));
 
 // JWT Authentication
 var jwtSecret = builder.Configuration["Jwt:Secret"]!;
