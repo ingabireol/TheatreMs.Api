@@ -45,7 +45,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             e.Property(b => b.PaymentStatus).HasConversion<string>();
             // Store booked seats as JSON
             e.Property(b => b.BookedSeats)
-             .HasColumnType("nvarchar(max)")
+             .HasColumnType("text")
              .HasConversion(
                  v => System.Text.Json.JsonSerializer.Serialize(v, (System.Text.Json.JsonSerializerOptions?)null),
                  v => System.Text.Json.JsonSerializer.Deserialize<List<string>>(v, (System.Text.Json.JsonSerializerOptions?)null) ?? new List<string>()
