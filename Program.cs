@@ -19,8 +19,15 @@ builder.Services.AddControllers()
     });
 
 // EF Core + PostgreSQL
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Render provides the DB URL as postgresql://user:pass@host:port/db — convert it to key=value format
+var rawConn = builder.Configuration.GetConnectionString("DefaultConnection")!;
+if (rawConn.StartsWith("postgres://") || rawConn.StartsWith("postgresql://"))
+{
+    var uri = new Uri(rawConn);
+    var userInfo = uri.UserInfo.Split(':', 2);
+    rawConn = $"Host={uri.Host};Port={(uri.Port > 0 ? uri.Port : 5432)};Database={uri.AbsolutePath.TrimStart('/')};Username={userInfo[0]};Password={Uri.UnescapeDataString(userInfo[1])}";
+}
+builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(rawConn));
 
 // JWT Authentication
 var jwtSecret = builder.Configuration["Jwt:Secret"]!;
