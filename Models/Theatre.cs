@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TheatreMs.Api.Models;
 
@@ -24,7 +23,6 @@ public class Theatre
 
     public int? TotalScreens { get; set; }
 
-    [Column(TypeName = "nvarchar(max)")]
     public string? ImageUrl { get; set; }
 
     public ICollection<Screening> Screenings { get; set; } = [];

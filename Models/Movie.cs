@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TheatreMs.Api.Models;
 
@@ -26,10 +25,8 @@ public class Movie
 
     public DateOnly? ReleaseDate { get; set; }
 
-    [Column(TypeName = "nvarchar(max)")]
     public string? PosterImageUrl { get; set; }
 
-    [Column(TypeName = "nvarchar(max)")]
     public string? TrailerUrl { get; set; }
 
     public MovieRating? Rating { get; set; }
