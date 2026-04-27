@@ -39,7 +39,7 @@ public class EmailService(IConfiguration config, ILogger<EmailService> logger) :
     public Task SendPasswordResetEmailAsync(string toEmail, string resetToken) =>
         SendAsync(toEmail, "Password Reset Request",
             $"<p>Click the link to reset your password:</p>" +
-            $"<a href='http://localhost:5173/reset-password?token={resetToken}'>Reset Password</a>" +
+            $"<a href='https://tms-fn.vercel.app/reset-password?token={resetToken}'>Reset Password</a>" +
             $"<p>This link expires in 1 hour.</p>");
 
     public Task SendOtpEmailAsync(string toEmail, string otp) =>
